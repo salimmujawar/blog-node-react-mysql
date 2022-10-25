@@ -120,5 +120,76 @@ $lightGreen: #b9e7e7;
       font-size: 12px;
     }
 
+    //HomePage
+    .home {
+      .posts {
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+        gap: 150px;
+
+        .post {
+          display: flex;
+          gap: 100px;
+
+          //if odd number reverse
+          &:nth-child(2n+1){
+            flex-direction: row-reverse;
+          }
+
+          .img {
+            flex: 2;
+            position: relative;
+            
+            &::after{
+              content: "";
+              width: 100%;
+              height: 100%;
+              background-color: $lightGreen;
+              top: 20px;                        
+              left: -20px;
+              position: absolute;
+              z-index: -1;
+            }
+
+            img {
+              width: 100%;
+              max-width: 400px;
+              object-fit: cover;
+            }
+          }
+
+          .content {
+            flex: 3;
+            display: flex;
+            flex-direction: column;            
+            justify-content: space-between;
+            
+            h1 {
+              font-size: 48px;
+            }
+
+            p{
+              font-size: 18px;
+            }
+            button{
+              width: max-content;
+              padding: 10px 20px;
+              cursor: pointer;
+              color: teal;
+              background-color: white;
+              border: 1px solid teal;
+
+              &:hover {
+                background-color: $lightGreen;
+                border: 1px solid white;
+                color: black;
+              }
+            }
+          }
+        }
+      }
+    }
+
   }
 }
