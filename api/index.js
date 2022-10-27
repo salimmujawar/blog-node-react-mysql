@@ -11,7 +11,7 @@ app.use(express.json())
 
 
 //init all web routes
-app.use("/api/posts", routes);
+app.use("/api", routes);
 
 let port = process.env.PORT || 8080;
 app.listen(port, () => {
