@@ -1,41 +1,26 @@
-import React from "react"
-import { Link } from "react-router-dom";
+import React, { useState } from "react"
+import { useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
+import axios from "axios";
 
 const Home = () => {
 
-  const posts = [
-    {
-      id:1,
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique voluptate esse quibusdam dolor. Rerum, impedit laborum. Dolore, ex libero quis sequi porro qui. Molestiae culpa aliquam mollitia error totam iure alias sapiente cumque voluptatum odio, id atque, ratione doloribus aliquid!",
-      img: "https://images.pexels.com/photos/6272/wood-free-wooden-home.jpg?cs=srgb&dl=pexels-kaboompics-com-6272.jpg&fm=jpg"
-    },
-    {
-      id:2,
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique voluptate esse quibusdam dolor. Rerum, impedit laborum. Dolore, ex libero quis sequi porro qui. Molestiae culpa aliquam mollitia error totam iure alias sapiente cumque voluptatum odio, id atque, ratione doloribus aliquid!",
-      img: "https://images.pexels.com/photos/1323550/pexels-photo-1323550.jpeg?cs=srgb&dl=pexels-simon-berger-1323550.jpg&fm=jpg"
-    },
-    {
-      id:3,
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique voluptate esse quibusdam dolor. Rerum, impedit laborum. Dolore, ex libero quis sequi porro qui. Molestiae culpa aliquam mollitia error totam iure alias sapiente cumque voluptatum odio, id atque, ratione doloribus aliquid!",
-      img: "https://images.pexels.com/photos/6272/wood-free-wooden-home.jpg?cs=srgb&dl=pexels-kaboompics-com-6272.jpg&fm=jpg"
-    },
-    {
-      id:4,
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique voluptate esse quibusdam dolor. Rerum, impedit laborum. Dolore, ex libero quis sequi porro qui. Molestiae culpa aliquam mollitia error totam iure alias sapiente cumque voluptatum odio, id atque, ratione doloribus aliquid!",
-      img: "https://images.pexels.com/photos/1323550/pexels-photo-1323550.jpeg?cs=srgb&dl=pexels-simon-berger-1323550.jpg&fm=jpg"
-    },
-    {
-      id:5,
-      title: "Lorem ipsum dolor sit amet consectetur adipisicing elit.",
-      desc: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique voluptate esse quibusdam dolor. Rerum, impedit laborum. Dolore, ex libero quis sequi porro qui. Molestiae culpa aliquam mollitia error totam iure alias sapiente cumque voluptatum odio, id atque, ratione doloribus aliquid!",
-      img: "https://images.pexels.com/photos/6272/wood-free-wooden-home.jpg?cs=srgb&dl=pexels-kaboompics-com-6272.jpg"
-    }
+  const [posts, setPosts] = useState([]);
 
-  ];
+  const cat = useLocation().search; 
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try{
+        const res = await axios.get(`/posts${cat}`);
+        setPosts(res.data);
+      }catch(err) {
+        console.log(err);
+      }
+    };
+    fetchData();
+  }, [cat]);
+  
   return (
     <div className="home">
       <div className="posts">
