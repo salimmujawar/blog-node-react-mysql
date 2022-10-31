@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react"
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Menu from "../components/Menu";
 import Edit from "../img/edit.png";
 import Delete from "../img/delete.png"
@@ -12,6 +12,7 @@ const Single = () => {
   const [post, setPost] = useState({});
 
   const location = useLocation(); 
+  const navigate = useNavigate();
 
   const postId = location.pathname.split("/")[2];
 
@@ -20,9 +21,8 @@ const Single = () => {
   useEffect(() => {
     const fetchData = async () => {
       try{
-        const res = await axios.get(`/posts${postId}`);
-        setPost(res.data);
-        console.log(res.data);
+        const res = await axios.get(`/posts/${postId}`);
+        setPost(res.data);        
       }catch(err) {
         console.log(err);
       }
@@ -30,10 +30,19 @@ const Single = () => {
     fetchData();
   }, [postId]);
 
+  const handleDelete = async () => {
+    try{
+      await axios.delete(`/posts/${postId}`);
+      navigate("/");
+    }catch(err) {
+      console.log(err);
+    }
+  }
+
   return (
     <div className="single">
       <div className="content">
-        <img src={post.img} alt="" />
+        <img src={`../upload/${post.img}`} alt="" />
         <div className="user">
           <img src={post.userImg} alt="" />
           <div className="info">
@@ -42,10 +51,10 @@ const Single = () => {
           </div>  
           {currentUser.username == post.username &&(
           <div className="edit">
-            <Link to={`/write?edit=2`}>
+            <Link to={`/write?edit=2`} state={post}>
               <img src={Edit} alt="" />
             </Link>            
-            <img src={Delete} alt="" />
+            <img src={Delete} alt=""  onClick={handleDelete}/>
           </div>        
           )}
         </div>
@@ -53,7 +62,7 @@ const Single = () => {
         <h1>{post.title}</h1>
         <p>{post.post_desc}</p>
       </div>
-      <Menu/>
+      <Menu cat={post.cat}/>
     </div>
   );
 }
